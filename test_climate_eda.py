@@ -5,6 +5,15 @@ from nbconvert.preprocessors import ExecutePreprocessor
 import re
 import pandas as pd
 import numpy as np
+import warnings
+import asyncio
+import sys
+import asyncio
+
+from asyncio.windows_events import WindowsSelectorEventLoopPolicy
+
+asyncio.set_event_loop_policy(WindowsSelectorEventLoopPolicy())
+
 
 class TestClimateEDA(unittest.TestCase):
     @classmethod
@@ -40,7 +49,7 @@ class TestClimateEDA(unittest.TestCase):
             
     def test_data_loading(self):
         """Test that climate data is loaded"""
-        self.assertIn("read_csv('../data/Climate_Change_Indicators.csv')", self.all_code, "Data file not loaded correctly")
+        self.assertIn("read_csv('./data/Climate_Change_Indicators.csv')", self.all_code, "Data file not loaded correctly")
         
     def test_yearly_aggregation(self):
         """Test that data is aggregated by year"""
