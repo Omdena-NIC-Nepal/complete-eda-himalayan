@@ -23,6 +23,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install numpy pandas matplotlib seaborn nbformat nbconvert jupyter_client
 
+    - name: Set up Python kernel
+      run: |
+        python -m ipykernel install --user --name python3 --display-name "Python 3"
+      
     - name: Run tests and calculate grade
       run: |
         # Generate climate data
