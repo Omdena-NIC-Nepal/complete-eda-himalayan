@@ -37,6 +37,10 @@ class TestClimateEDA(unittest.TestCase):
                     cls.df_name = match.group(1)
                     break
         
+    def setUp(self):
+        """Ensure all_code is available for every test method"""
+        self.all_code = getattr(self.__class__, "all_code", "")
+
     def test_required_libraries(self):
         """Test that all required libraries are imported"""
         required_libs = ['pandas', 'numpy', 'matplotlib', 'seaborn']
