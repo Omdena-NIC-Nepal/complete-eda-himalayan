@@ -9,7 +9,13 @@ import warnings
 import asyncio
 import sys
 import asyncio
-
+import sys
+if sys.platform == 'win32':
+    from asyncio.windows_events import WindowsSelectorEventLoopPolicy
+    # ... rest of the code that uses WindowsSelectorEventLoopPolicy ...
+else:
+    # Provide alternative logic or skip the test on non-Windows systems
+    pass
 from asyncio.windows_events import WindowsSelectorEventLoopPolicy
 
 asyncio.set_event_loop_policy(WindowsSelectorEventLoopPolicy())
