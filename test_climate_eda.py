@@ -22,6 +22,11 @@ class TestClimateEDA(unittest.TestCase):
             cell["source"] for cell in cls.notebook.cells if cell.cell_type == "code"
         ) if hasattr(cls.notebook, "cells") else ""
 
+        # Extract all markdown cells (for conclusions and analysis)
+        cls.all_markdown = "\n".join(
+            cell["source"] for cell in cls.notebook.cells if cell.cell_type == "markdown"
+        ) if hasattr(cls.notebook, "cells") else ""
+
         # Extract code and markdown cells
         cls.code_cells = [cell for cell in cls.notebook.cells if cell['cell_type'] == 'code']
         cls.markdown_cells = [cell for cell in cls.notebook.cells if cell['cell_type'] == 'markdown']
@@ -40,6 +45,7 @@ class TestClimateEDA(unittest.TestCase):
     def setUp(self):
         """Ensure all_code is available for every test method"""
         self.all_code = getattr(self.__class__, "all_code", "")
+        self.all_markdown = getattr(self.__class__, "all_markdown", "")
 
     def test_required_libraries(self):
         """Test that all required libraries are imported"""
