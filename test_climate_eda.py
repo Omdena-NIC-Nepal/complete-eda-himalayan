@@ -16,7 +16,12 @@ class TestClimateEDA(unittest.TestCase):
         # Execute the notebook
         ep = ExecutePreprocessor(timeout=600, kernel_name='python3')
         ep.preprocess(cls.notebook, {'metadata': {'path': '.'}})
-        
+
+        # Ensure all_code is properly initialized
+        cls.all_code = "\n".join(
+            cell["source"] for cell in cls.notebook.cells if cell.cell_type == "code"
+        ) if hasattr(cls.notebook, "cells") else ""
+
         # Extract code and markdown cells
         cls.code_cells = [cell for cell in cls.notebook.cells if cell['cell_type'] == 'code']
         cls.markdown_cells = [cell for cell in cls.notebook.cells if cell['cell_type'] == 'markdown']
