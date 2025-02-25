@@ -2,9 +2,9 @@ name: Grade Assignment
 
 on:
   push:
-    branches: [main]
+    branches: [himalayan-sanjeev/climate-change-eda]
   pull_request:
-    branches: [main]
+    branches: [himalayan-sanjeev/climate-change-eda]
 
 jobs:
   grade:
