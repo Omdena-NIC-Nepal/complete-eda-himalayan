@@ -25,9 +25,6 @@ jobs:
 
     - name: Run tests and calculate grade
       run: |
-        # Generate climate data
-        python climate_data.py
-        
         # Run tests
         python -m unittest test_climate_eda.py
         
