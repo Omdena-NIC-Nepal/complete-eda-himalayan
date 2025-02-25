@@ -40,7 +40,7 @@ class TestClimateEDA(unittest.TestCase):
             
     def test_data_loading(self):
         """Test that climate data is loaded"""
-        self.assertIn("read_csv('../data/Climate_Change_Indicators.csv')", self.all_code, "Data file not loaded correctly")
+        self.assertIn("read_csv('data/Climate_Change_Indicators.csv')", self.all_code, "Data file not loaded correctly")
         
     def test_yearly_aggregation(self):
         """Test that data is aggregated by year"""
@@ -133,6 +133,11 @@ class TestClimateEDA(unittest.TestCase):
 
     def calculate_grade(self):
         """Calculate the grade based on passing tests"""
+        
+        # Manually running setUpClass
+        if not hasattr(self, 'all_code'):
+            self.setUpClass() 
+            
         # List of all test methods
         test_methods = [method for method in dir(self) if method.startswith('test_')]
         total_tests = len(test_methods)
@@ -154,6 +159,9 @@ if __name__ == '__main__':
     test_suite = unittest.TestLoader().loadTestsFromTestCase(TestClimateEDA)
     test_runner = unittest.TextTestRunner(verbosity=2)
     test_result = test_runner.run(test_suite)
+
+    # # Manually call setUpClass to ensure class attributes are populated
+    # TestClimateEDA.setUpClass()
     
     # Calculate and print grade
     test_case = TestClimateEDA()
