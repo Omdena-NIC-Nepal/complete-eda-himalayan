@@ -154,6 +154,9 @@ if __name__ == '__main__':
     test_suite = unittest.TestLoader().loadTestsFromTestCase(TestClimateEDA)
     test_runner = unittest.TextTestRunner(verbosity=2)
     test_result = test_runner.run(test_suite)
+
+    # Manually call setUpClass to ensure class attributes are populated
+    TestClimateEDA.setUpClass()
     
     # Calculate and print grade
     test_case = TestClimateEDA()
