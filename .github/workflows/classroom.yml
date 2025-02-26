@@ -2,9 +2,9 @@ name: Grade Assignment
 
 on:
   push:
-    branches: [main]
+    branches: [himalayan-sanjeev/climate-change-eda]
   pull_request:
-    branches: [main]
+    branches: [himalayan-sanjeev/climate-change-eda]
 
 jobs:
   grade:
@@ -22,14 +22,13 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install numpy pandas matplotlib seaborn nbformat nbconvert jupyter_client ipykernel
-        pip install pandas statsmodels matplotlib seaborn scipy
+
+    - name: Set up Jupyter Kernel
+      run: |
+        python -m ipykernel install --user --name=python3
+
     - name: Run tests and calculate grade
       run: |
-        # Generate climate data
-        jupyter nbconvert --to script climate_eda.ipynb --output climate_eda
-        sed -i '/%matplotlib/d' climate_eda.py  # Remove Jupyter magic commands
-        sed -i "/get_ipython()/d" climate_eda.py  # Remove Jupyter magic commands
-        python climate_eda.py
         # Run tests
         python -m unittest test_climate_eda.py
         
@@ -43,9 +42,11 @@ jobs:
           
         echo "Grade: $GRADE/100"
         echo "GRADE=$GRADE" >> $GITHUB_ENV
-     - name: Create grade summary
-       run: |
-       echo "## Assignment Grade: ${{ env.GRADE }}/100" > grade_summary.md
+
+    - name: Create grade summary
+      run: |
+        echo "## Assignment Grade: ${{ env.GRADE }}/100" > grade_summary.md
+
     - name: Upload grade summary
       uses: actions/upload-artifact@v4
       with:
