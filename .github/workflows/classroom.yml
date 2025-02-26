@@ -2,9 +2,9 @@ name: Grade Assignment
 
 on:
   push:
-    branches: [prabin]
+    branches: [main]
   pull_request:
-    branches: [prabin]
+    branches: [main]
 
 jobs:
   grade:
