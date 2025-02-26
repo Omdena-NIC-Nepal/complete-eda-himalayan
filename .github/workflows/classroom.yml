@@ -24,13 +24,16 @@ jobs:
         pip install numpy pandas matplotlib seaborn nbformat nbconvert jupyter_client ipykernel
         pip install pandas statsmodels matplotlib seaborn scipy
     - name: Run tests and calculate grade
+      id: run_tests
       run: |
         # Generate climate data
         jupyter nbconvert --to script climate_eda.ipynb --output climate_eda
         sed -i '/%matplotlib/d' climate_eda.py  # Remove Jupyter magic commands
         sed -i "/get_ipython()/d" climate_eda.py  # Remove Jupyter magic commands
         python climate_eda.py
-        
+        # Run tests and capture the exit code
+          python -m unittest test_climate_eda.py 
+          TEST_EXIT_CODE=$?
         # Run tests
         python -m unittest test_climate_eda.py
         
@@ -44,7 +47,10 @@ jobs:
           
         echo "Grade: $GRADE/100"
         echo "GRADE=$GRADE" >> $GITHUB_ENV
-
+        echo "TEST_EXIT_CODE=$TEST_EXIT_CODE" >> $GITHUB_ENV # Store exit code
+    - name: Check test status
+        if: env.TEST_EXIT_CODE != '0' # Check if tests failed
+        run: exit 1 # Exit with non-zero code if tests failed
     - name: Create grade summary
       run: |
         echo "## Assignment Grade: ${{ env.GRADE }}/100" > grade_summary.md
